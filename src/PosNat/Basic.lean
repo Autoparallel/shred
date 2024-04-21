@@ -1,6 +1,7 @@
 -- Note this could all probably be defined better so that `prev` is such that
 -- `prev n = m` such that `succ m = n`. This would make the proofs easier.
 
+
 def PosNat := { n : Nat // n > 0 }
 
 def prev (n : PosNat) : Nat := n.val - 1
