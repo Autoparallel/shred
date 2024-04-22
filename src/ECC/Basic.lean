@@ -4,6 +4,12 @@ import Mathlib.AlgebraicGeometry.EllipticCurve.Projective
 import Mathlib.AlgebraicGeometry.EllipticCurve.Weierstrass
 import Mathlib.AlgebraicGeometry.EllipticCurve.Jacobian
 
+import Mathlib.GroupTheory.SpecificGroups.Cyclic
+import Mathlib.Algebra.Group.UniqueProds
+import Mathlib.Tactic.Group
+import Mathlib.GroupTheory.Coprod.Basic
+import Mathlib.Algebra.Group.Defs
+
 namespace EllipticCurve
 
 
@@ -25,7 +31,15 @@ noncomputable instance ECPointsGroup {k : Type} [Field k] [Fintype k] (E : Ellip
 
 end EllipticCurve
 
-theorem point_group_is_cyclic {k : Type} [Field k] [Fintype k] (E : EllipticCurve k) [Group (ECPoints)]: IsCyclic (ECPoints) := by
+def IsProductOfTwoCyclicGroups (G : Type*) [Group G] : Prop :=
+  ∃ (H K : Subgroup G), IsCyclic H ∧ IsCyclic K ∧ Nontrivial H ∧ Nontrivial K ∧ Nonempty (G ≃* H.prod K)
+
+
+theorem point_group_is_cyclic_or_product_of_cyclic {k : Type} [Field k] [Fintype k] (E : EllipticCurve k) [Group (ECPoints)] :
+  IsCyclic (ECPoints) ∨ IsProductOfTwoCyclicGroups (ECPoints) := by
   sorry
 
+
 -- We also need that ∀ E.Δ ≠ 0 so we know it is not singular
+
+-- https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/GroupTheory/FiniteAbelian.lean this is useful
