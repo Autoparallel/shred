@@ -13,6 +13,15 @@ import Mathlib.GroupTheory.FiniteAbelian
 
 def ECPoints {k : Type} [Field k] [Fintype k] (E : EllipticCurve k) : Type := E.toAffine.Point
 
+
+def x [Field k] [Fintype k] (E : EllipticCurve k) (P : ECPoints E) : k :=
+  match P with
+  | WeierstrassCurve.Affine.Point.zero => 0
+  | WeierstrassCurve.Affine.Point.some h => h.left
+
+
+
+
 noncomputable instance ECPointsCommGroup {k : Type} [Field k] [Fintype k] (E : EllipticCurve k) : AddCommGroup (ECPoints E) :=
 WeierstrassCurve.Affine.Point.instAddCommGroupPoint
 
@@ -30,10 +39,15 @@ noncomputable instance ECPointsGroup {k : Type} [Field k] [Fintype k] (E : Ellip
 def IsProductOfTwoCyclicGroups (G : Type*) [Group G] : Prop :=
   ∃ (H K : Subgroup G), IsCyclic H ∧ IsCyclic K ∧ Nontrivial H ∧ Nontrivial K ∧ Nonempty (G ≃* H.prod K)
 
---- This would be easy to do by contradiction as the most amount of points on an elliptic curve is |k|²
+--- This would be easy to do by contradiction as the most amount of points on an elliptic curve is |k|² plus the point at infinity
 theorem point_group_is_finite_with_finite_field {k : Type} [Field k] [Fintype k] (E : EllipticCurve k) [Group (ECPoints E)] :
   Finite (ECPoints E) := by
-  have h1 : ∃ f : ECPoints E ↪ Fin (Fintype.card k) × Fin (Fintype.card k), true := sorry
+  have h1 : ∃ f : ECPoints E ↪ Fin (Fintype.card k) × Fin (Fintype.card k), true :=
+  by {
+    -- let g : ECPoints E → Fin (Fintype.card k) × Fin (Fintype.card k) :=
+
+    sorry
+  }
   choose f hf using h1
   haveI : Fintype (ECPoints E) := Fintype.ofInjective f (by apply f.injective)
   exact Finite.of_fintype (ECPoints E)
